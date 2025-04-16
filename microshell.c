@@ -11,7 +11,7 @@ int	cd(int argc, char **argv)
 {
 	if (argc != 2)
 		return (error("error: cd: bad arguments"));
-	if (chdir(argv[1]) == -1)
+	if (chdir(argv[1]) != 0)
 		return (error("error: cd: cannot change directory to "), error(argv[1]), error("\n"));
 	return (0);
 }
@@ -36,7 +36,7 @@ int	execute(int argc, char **argv, char **envp, int pipeFlag)
 	}
 	waitpid(pid, &status, 0);
 	if (pipeFlag != 0 && (dup2(fd[0], STDIN_FILENO) == -1 || close(fd[0]) == -1 || close(fd[1]) == -1))
-		return (error("error: fatal\n"), exit(1), 1);
+		return (error("error: fatal\n"));
 	return (status);
 }
 
